@@ -1,0 +1,2 @@
+esp32sender = node
+ttgoreceiver = gateway
