@@ -48,15 +48,15 @@
 
 //---------Configuration variable---------------------
 // Replace the next variables with your SSID/Password combination
-const char* ssid = "MES_2";
-const char* password = "";
+const char* ssid = "LA2ND_3";
+const char* password = "tshorigin";
 IPAddress staticIP(172,16,3,81); // IP the board
 IPAddress gateway(172,16,3,254);
 IPAddress subnet(255,255,0,0);
 
 // Add your MQTT Broker IP address, example:
 //const char* mqtt_server = "192.168.1.144";
-const char* mqtt_server = "172.16.0.11";
+const char* mqtt_server = "10.11.0.32"; // "172.16.0.11";
 
 const long frequency = 915E6;  // LoRa Frequency
 
@@ -82,7 +82,7 @@ String i_time = "";
 
 void setup() {
   Serial.begin(9600);                   // initialize serial
-  while (!Serial);
+  //while (!Serial);
   Data = " - ";
   pinMode(LED_BUILTIN, OUTPUT); //Send success, LED will bright 1 second
   
@@ -116,10 +116,22 @@ void setup() {
 }
 
 void loop() {
+  //if ((WiFi.status() != WL_CONNECTED) && runEvery2(3000)) {
+  //  WIFISetUp();
+  //}
+  
   if (!client.connected()) {
+    display.clearDisplay();
+    display.setTextSize(1);
+    display.setTextColor(WHITE);
+    display.setCursor(0,0);
+    display.println("Connecting to MQTT");
+    display.display();
     reconnect();
   }
   client.loop();
+
+  
 
   if(sendIt)
   {
@@ -159,13 +171,6 @@ void loop() {
     display.display();
   }
   
-  if(runEvery2(75))
-  {
-    if (digitalRead(LED_BUILTIN))
-    {
-      digitalWrite(LED_BUILTIN, 0);
-    }
-  }
 }
 
 //#################END SETUP and LOOP##################
@@ -271,13 +276,13 @@ void WIFISetUp(void)
   WiFi.mode(WIFI_STA);
   WiFi.setAutoConnect(true);
   WiFi.begin(ssid,password);//fill in "Your WiFi SSID","Your Password"
-  WiFi.config(staticIP, gateway, subnet);  //<--- comment if using dhcp
+  //WiFi.config(staticIP, gateway, subnet);  //<--- comment if using dhcp
   delay(100);
 
   byte count = 0;
   int ctt = 0;
   
-  while(WiFi.status() != WL_CONNECTED && count < 70)
+  while(WiFi.status() != WL_CONNECTED )// && count < 70)
   {
     count ++;
     if (ctt == 4 ){ ctt = 0; }

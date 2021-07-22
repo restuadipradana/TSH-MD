@@ -1,2 +1,7 @@
 esp32sender = node
 ttgoreceiver = gateway
+
+git status
+git add .
+git commit -m "komen komit"
+git push origin master

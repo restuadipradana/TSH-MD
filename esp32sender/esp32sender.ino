@@ -43,7 +43,8 @@ const int m = 32;//mode
 String msgdata;
 boolean objDet = false;       //flag object detected on sensor
 boolean metDet = false;       //flag metal detected
-int lightBlink = 0;
+int lightBlink = 0;         // interval between sends
+unsigned long previousMillisTD = 0; 
 
 void setup() {
   Serial.begin(9600);
@@ -112,9 +113,10 @@ void loop() {
     if (metDet)     //to turn off
     {
       metDet = false;
-      if (runEvery2(550))
+      if (runEvery2(750))
       {
         lightBlink++;
+        previousMillisTD = millis();
         Serial.print("Def light ");
         Serial.println(lightBlink);
         if (lightBlink == 3)
@@ -123,13 +125,20 @@ void loop() {
           if(!digitalRead(m))
           {
             //send data defact
-            LoRa_sendMessage("TSH;A01A;2;1970/01/01 00:00:01");
+            LoRa_sendMessage("TSH;A01B;2;1970/01/01 00:00:01");
             Serial.print("Send ");
           }
           Serial.println("detect 2");
         }
-      }
+      }Serial.println("light off");
     }
+  }
+
+  if (lightBlink > 0 && (millis() - previousMillisTD > 3000))
+  {
+    lightBlink = 0;
+    Serial.println(lightBlink);
+    previousMillisTD = millis(); 
   }
 
 //  if (runEvery(1500)) { // repeat every 1000 millis
