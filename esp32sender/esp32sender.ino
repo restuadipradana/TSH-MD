@@ -91,7 +91,7 @@ void loop() {
         //send data detected
         if (runEvery(450)) //pervent uC crashing while voltage not stable (sensor lebih dari 2x dalam 100 ms)
         {
-          LoRa_sendMessage("TSH;A01A;1;1970/01/01 00:00:01");
+          LoRa_sendMessage("TSH;A01B;1;1970/01/01 00:00:01");
           Serial.print("send ");
         }
         

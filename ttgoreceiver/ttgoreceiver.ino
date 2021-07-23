@@ -48,7 +48,7 @@
 
 //---------Configuration variable---------------------
 // Replace the next variables with your SSID/Password combination
-const char* ssid = "LA2ND_3";
+const char* ssid = "LA1ST";
 const char* password = "tshorigin";
 IPAddress staticIP(172,16,3,81); // IP the board
 IPAddress gateway(172,16,3,254);
